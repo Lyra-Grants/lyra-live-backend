@@ -1,0 +1,91 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+// model Post {
+//   id        Int      @id @default(autoincrement())
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   title     String   @db.VarChar(255)
+//   content   String?
+//   published Boolean  @default(false)
+//   author    User     @relation(fields: [authorId], references: [id])
+//   authorId  Int
+// }
+
+// model Profile {
+//   id     Int     @id @default(autoincrement())
+//   bio    String?
+//   user   User    @relation(fields: [userId], references: [id])
+//   userId Int     @unique
+// }
+
+model User {
+  id      Int      @id @default(autoincrement())
+  address String
+  ens     String
+  avatar  String
+  email   String   @unique
+  name    String?
+  assets   Asset[]
+  collections Collection[]
+}
+
+model Collection {
+  id      Int      @id @default(autoincrement())
+  contractAddress__Mainnet String @unique
+  contractAddress__Kovan String?
+  contract_type String
+  featured_image_url String
+  overview_image String
+  featured_metadata_url String
+  name String @unique
+  slug String
+  // Not sure what type to put for artifact (json typescript types file)
+  artifact String
+  image_hash String
+  image_format String
+  placeholder_image String
+  metadata_hash String
+  ipfs_image_url String
+  ipfs_metadata_url String
+  image_name_prefix String
+  first_token Int
+  token_count Int
+  token_count_current Int
+  asset_name_prefix String
+  banner_image_url String
+  tokenObjs Asset[]
+  description String
+  external_url String
+  discord_url String
+  twitter_username String
+  creator User? @relation(fields: [creatorId], references: [id])
+  creatorId Int?
+  ownerAddress__Mainnet String
+  ownerAddress__Kovan String
+  ownerRoyalty Int
+  ownerPGF Int
+  optimarket_handles_PGF Boolean @default(false)
+}
+
+model Asset {
+  id      Int      @id @default(autoincrement())
+  collection Collection? @relation(fields: [collectionId], references: [id])
+  collectionId Int
+  contractAddress__Mainnet String
+  owner User? @relation(fields: [userId], references: [id])
+  userId Int?
+  token_id Int
+  name String
+  image_url String
+  created_date DateTime
+  price Decimal? @default(0)
+  last_sale Decimal?
+  num_sales Int @default(0)
+  activeOffer Decimal?
+  rarity Int?
+  token_metadata String
+}
