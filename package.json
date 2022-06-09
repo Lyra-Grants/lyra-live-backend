@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "prestart": "babel ./src --out-dir build",
-    "start": "node ./build/bin/www",
+    "start": "node index.js",
     "startdev": "nodemon --exec babel-node ./src/bin/www",
     "lint": "eslint ./src",
     "pretty": "prettier --write '**/*.{js,json}' '!node_modules/**'",
@@ -34,6 +34,7 @@
     "express": "^4.18.1",
     "http-errors": "^2.0.0",
     "mocha": "^10.0.0",
+    "mongoose": "^6.3.6",
     "morgan": "^1.10.0",
     "node": "^17.7.2",
     "nyc": "^15.1.0",
