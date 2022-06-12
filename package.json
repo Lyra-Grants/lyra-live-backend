@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "prestart": "babel ./src --out-dir build",
-    "start": "node index.js",
-    "startdev": "nodemon --exec babel-node ./src/bin/www",
+    "start": "node server.js",
+    "startdev": "nodemon --exec babel-node server.js",
     "lint": "eslint ./src",
     "pretty": "prettier --write '**/*.{js,json}' '!node_modules/**'",
     "postpretty": "npm run lint --fix",

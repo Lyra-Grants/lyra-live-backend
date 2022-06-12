@@ -8,6 +8,9 @@ app.use(express.json())
 
 const mongoose = require('mongoose')
 
+const source = process.env.ATLAS_CONNECTION
+require('dotenv').config()
+
 mongoose.connect(source, {
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -19,11 +22,7 @@ connection.once('open', () => {
   console.log("DB connected.");
 })
 
-require('dotenv').config()
-
-const source = process.env.ATLAS_CONNECTION
-
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 6000
 app.listen(PORT, ()=>{
     console.log(`Successfully served on port: ${PORT}.`);
 })
