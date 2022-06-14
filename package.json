@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "prestart": "babel ./src --out-dir build",
-    "start": "node server.js",
-    "startdev": "nodemon --exec babel-node server.js",
+    "start": "node index.js",
+    "startdev": "nodemon --exec babel-node ./src/bin/www",
     "lint": "eslint ./src",
     "pretty": "prettier --write '**/*.{js,json}' '!node_modules/**'",
     "postpretty": "npm run lint --fix",
@@ -20,6 +20,7 @@
     "@babel/preset-env": "^7.18.2",
     "@babel/register": "^7.17.7",
     "@babel/runtime": "^7.18.3",
+    "@lyrafinance/lyra-js": "^0.0.13",
     "@prisma/client": "^3.15.0",
     "body-parser": "^1.20.0",
     "chai": "^4.3.6",

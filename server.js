@@ -7,15 +7,11 @@ app.use(cors())
 app.use(express.json())
 
 const mongoose = require('mongoose')
-
-const source = process.env.ATLAS_CONNECTION
 require('dotenv').config()
 
-mongoose.connect(source, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true
-})
+const source = process.env.ATLAS_CONNECTION
+
+mongoose.connect(source)
 
 const connection = mongoose.connection
 connection.once('open', () => {
