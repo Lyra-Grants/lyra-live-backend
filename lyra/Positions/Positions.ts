@@ -1,37 +1,48 @@
-import Lyra from '@lyrafinance/lyra-js'
+import yargs from 'yargs'
 
-const lyra = new Lyra()
+import printObject from '@lyrafinance/lyra-js/src/utils/printObject'
+import getLyra from '../utils/getLyra'
+import getSigner from '../utils/getSigner'
+
+// const lyra = new Lyra()
 
 // I would get a trader's positions using lyra.positions() 
 // and add up position.realizedPnl() for net realized profits
 // You can also get a rolling average of position.realizedPnlPercentage() 
 // based on trade size to get an idea of their profits relative to capital
 
-// Fetch all markets
-const Positions = async (owner: string) => {
+const Positions = async (argv: string[]) => {
+    const lyra = getLyra()
 
-    const userPositions = await lyra.positions(owner)
+    const signer = getSigner(lyra)
+    const args = await yargs(argv).options({
+    account: { type: 'string', alias: 'a', require: false },
+    open: { type: 'boolean', alias: 'o', require: false },
+    }).argv
 
-    
-    const userPnL = position.realizedPnl()
-    position.realizedPnlPercentage()
+    const isOpen = args.open
+    const account = args.account ?? signer.address
+    const positions = isOpen ? await lyra.openPositions(account) : await lyra.positions(account)
 
-    // console.log(
-    // markets.map(market => ({
-    //     address: market.address,
-    //     name: market.name,
-    //     // List all live boards (expiries)
-    //     expiries: market.liveBoards().map(board => ({
-    //     id: board.id,
-    //     expiryTimestamp: board.expiryTimestamp,
-    //     // List all strikes
-    //     strikes: board.strikes().map(strike => ({
-    //         id: strike.id,
-    //         strikePrice: strike.strikePrice,
-    //     })),
-    //     })),
-    // }))
-    // )
+    printObject(
+    positions.map(pos => ({
+        __source: pos.__source,
+        id: pos.id,
+        size: pos.size,
+        isOpen: pos.isOpen,
+        isCall: pos.isCall,
+        isLong: pos.isLong,
+        isSettled: pos.isSettled,
+        isBaseCollateral: pos.collateral?.isBase,
+        numTrades: pos.trades().length,
+        avgCostPerOption: pos.avgCostPerOption(),
+        pricePerOption: pos.pricePerOption,
+        realizedPnl: pos.realizedPnl(),
+        realizedPnlPercent: pos.realizedPnlPercent(),
+        unrealizedPnl: pos.unrealizedPnl(),
+        unrealizedPnlPercent: pos.unrealizedPnlPercent(),
+    }))
+    )
 }
 
 export default Positions;
