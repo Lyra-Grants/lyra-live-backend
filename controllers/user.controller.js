@@ -1,5 +1,5 @@
 // user controller
-import User from '../models/user.model'
+const User = require('../models/user.model')
 const router = require('express').Router()
 
 

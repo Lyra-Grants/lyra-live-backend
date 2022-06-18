@@ -28,6 +28,7 @@ const Positions = async (argv: string[]) => {
     positions.map(pos => ({
         __source: pos.__source,
         id: pos.id,
+        owner: pos.owner,
         size: pos.size,
         isOpen: pos.isOpen,
         isCall: pos.isCall,
