@@ -1,13 +1,17 @@
 import { BigNumber } from '@ethersproject/bignumber'
+import { Schema, model } from 'mongoose';
+
+// interface IUser {
+//     name: string;
+//     email: string;
+//     avatar?: string;
+//   }
+
 // position model
-
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
-
 const positionSchema = new Schema({
 
-    __source: pos.__source,
-    id: pos.id,
+    dataSource: { type: String },
+    id: { type: ObjectId },
     owner: { type: String, required: true },
     size: { type: Number, required: true },
     isOpen: { type: Boolean, required: true },
@@ -24,5 +28,5 @@ const positionSchema = new Schema({
     unrealizedPnlPercent: { type: BigNumber },
 })
 
-const Position = mongoose.model('Position', positionSchema)
+const Position = model('Position', positionSchema)
 module.exports = Position
