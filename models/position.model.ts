@@ -11,7 +11,7 @@ import { Schema, model } from 'mongoose';
 const positionSchema = new Schema({
 
     dataSource: { type: String },
-    id: { type: ObjectId },
+    id: { type: String },
     owner: { type: String, required: true },
     size: { type: Number, required: true },
     isOpen: { type: Boolean, required: true },
@@ -28,5 +28,5 @@ const positionSchema = new Schema({
     unrealizedPnlPercent: { type: BigNumber },
 })
 
-const Position = model('Position', positionSchema)
+export const Position = model('Position', positionSchema)
 module.exports = Position

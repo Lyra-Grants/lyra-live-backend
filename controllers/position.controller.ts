@@ -1,7 +1,8 @@
 // position controller
-const Position = require('../models/position.model')
-const router = require('express').Router()
+import { Position } from '../models/position.model'
+import { Router } from 'express'
 
+const router = Router()
 
 router.route('/new').post((req, res) => {
     const newPosition = new Position(req.body)

@@ -21,5 +21,5 @@ const userSchema = new Schema<IUser>({
     // positions: { type:  },
 })
 
-const User = model('User', userSchema)
+export const User = model('User', userSchema)
 module.exports = User

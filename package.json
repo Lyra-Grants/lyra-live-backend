@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "prestart": "babel ./src --out-dir build",
-    "start": "node index.js",
+    "start": "node server.ts",
+    "seed": "node seed.ts",
     "startdev": "nodemon --exec babel-node ./src/bin/www",
     "lint": "eslint ./src",
     "pretty": "prettier --write '**/*.{js,json}' '!node_modules/**'",
@@ -54,7 +55,7 @@
     "typescript": "^4.7.3"
   },
   "description": "",
-  "main": "db.js",
+  "main": "server.ts",
   "directories": {
     "test": "test"
   },
@@ -68,5 +69,8 @@
   "bugs": {
     "url": "https://github.com/Lyra-Grants/lyra-live/issues"
   },
-  "homepage": "https://github.com/Lyra-Grants/lyra-live#readme"
+  "homepage": "https://github.com/Lyra-Grants/lyra-live#readme",
+  "prisma": {
+    "schema": "./schema.prisma"
+  }
 }

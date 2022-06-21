@@ -1,7 +1,8 @@
 // user controller
-const User = require('../models/user.model')
-const router = require('express').Router()
+import { User } from '../models/user.model'
+import { Router } from 'express'
 
+const router = Router()
 
 router.route('/new').post((req, res) => {
     const newUser = new User(req.body)

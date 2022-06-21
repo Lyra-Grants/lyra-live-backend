@@ -1,5 +1,9 @@
+import express from 'express'
+// import cors from 'cors'
+import dotenv from 'dotenv'
+import { json } from 'body-parser'
+
 // establish an express app
-const express = require('express')
 const app = express()
 
 // allow requests from outside resources like postman, or your frontend if you choose to build that out
@@ -7,13 +11,13 @@ const cors = require('cors')
 app.use(cors())
 
 // app will serve and receive data in a JSON format
-app.use(express.json())
+app.use(json())
 
 // the messenger between our app and our database
 const mongoose = require('mongoose')
 
 // allow us to hide our connection secret in the process.env object
-require('dotenv').config()
+dotenv.config()
 
 // establish connection & give yourself a message so you know when its complete
 const source = process.env.ATLAS_CONNECTION
@@ -24,8 +28,8 @@ connection.once('open', () => {
     console.log("DB connected.");
 })
 
-const userRoutes = require('./controllers/user.controller')
-app.use('/users', userRoutes)
+// const userRoutes = require('./controllers/user.controller')
+// app.use('/users', userRoutes)
 
 const PORT = process.env.PORT || 6000
 app.listen(PORT, ()=>{
