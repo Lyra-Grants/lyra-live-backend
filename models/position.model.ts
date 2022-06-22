@@ -1,19 +1,33 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import { Schema, model } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 
-// interface IUser {
-//     name: string;
-//     email: string;
-//     avatar?: string;
-//   }
+export interface IPosition {
+    _id?: Types.ObjectId;
+    dataSource: String;
+    positionId: Number;
+    owner?: Types.ObjectId;
+    size: BigNumber;
+    isOpen: Boolean;
+    isCall: Boolean;
+    isLong: Boolean;
+    isSettled: Boolean;
+    isBaseCollateral?: Boolean;
+    numTrades?: Number;
+    avgCostPerOption?: BigNumber;
+    pricePerOption?: BigNumber;
+    realizedPnl?: BigNumber;
+    realizedPnlPercent?: BigNumber;
+    unrealizedPnl?: BigNumber;
+    unrealizedPnlPercent?: BigNumber;
+  }
 
 // position model
-const positionSchema = new Schema({
-
+const positionSchema = new Schema<IPosition>({
+    _id: { type: Types.ObjectId },
     dataSource: { type: String },
-    id: { type: String },
-    owner: { type: String, required: true },
-    size: { type: Number, required: true },
+    positionId: { type: Number },
+    owner: { type: Schema.Types.ObjectId, ref: 'User' },
+    size: { type: BigNumber, required: true },
     isOpen: { type: Boolean, required: true },
     isCall: { type: Boolean, required: true },
     isLong: { type: Boolean, required: true },
