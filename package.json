@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "prestart": "babel ./src --out-dir build",
-    "start": "node index.js",
+    "start": "node server.ts",
+    "seed": "node seed.ts",
     "startdev": "nodemon --exec babel-node ./src/bin/www",
     "lint": "eslint ./src",
     "pretty": "prettier --write '**/*.{js,json}' '!node_modules/**'",
@@ -48,13 +49,14 @@
   "devDependencies": {
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.41",
+    "@types/yargs": "^17.0.10",
     "nodemon": "^2.0.16",
     "prisma": "^3.15.0",
     "ts-node": "^10.8.1",
     "typescript": "^4.7.3"
   },
   "description": "",
-  "main": "db.js",
+  "main": "server.ts",
   "directories": {
     "test": "test"
   },
@@ -68,5 +70,8 @@
   "bugs": {
     "url": "https://github.com/Lyra-Grants/lyra-live/issues"
   },
-  "homepage": "https://github.com/Lyra-Grants/lyra-live#readme"
+  "homepage": "https://github.com/Lyra-Grants/lyra-live#readme",
+  "prisma": {
+    "schema": "./schema.prisma"
+  }
 }

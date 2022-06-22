@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("ATLAS_CONNECTION")
+}
+
+model User {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt       DateTime @default(now())
+  account         String   @unique
+  ens             String?  @unique
+  email           String?  @unique
+  trades_count    Int?
+  duration        String
+  favorite_asset  String
+  pnl             Int?
+  position        Position[]
+  role            Role     @default(USER)
+  posts           Post[]
+}
+
+model Position {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  dataSource String
+  owner String
+  size Int
+  isOpen Boolean
+  isCall Boolean
+  isLong Boolean
+  isSettled Boolean
+  isBaseCollateral Boolean
+  numTrades Boolean
+  // avgCostPerOption BigNumber
+  // pricePerOption BigNumber
+  // realizedPnl BigNumber
+  // realizedPnlPercent BigNumber
+  // unrealizedPnl BigNumber
+  // unrealizedPnlPercent BigNumber
+  author        User?    @relation(fields: [authorId], references: [id])
+  authorId      String   @db.ObjectId
+}
+
+model Post {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  body      String
+  author    User?    @relation(fields: [authorId], references: [id])
+  authorId  String   @db.ObjectId
+}
+
+enum Role {
+  USER
+  ADMIN
+}

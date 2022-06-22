@@ -1,4 +1,5 @@
-import { Deployment } from '@lyrafinance/lyra-js/src/constants/contracts'
+// import { Deployment } from '@lyrafinance/lyra-js/src/constants/contracts'
+import { Deployment } from '../../constants/contracts'
 import Lyra from '@lyrafinance/lyra-js'
 
 export default function getLyra(): Lyra {
