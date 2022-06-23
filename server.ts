@@ -21,23 +21,27 @@ dotenv.config()
 // establish connection & give yourself a message so you know when its complete
 const source = process.env.ATLAS_CONNECTION
 
-import getPositions from "./lyra/getPositions/getPositions";
+// import getPositions from "./lyra/getPositions/getPositions";
 
-const account = '0x90C6577Fb57edF1921ae3F7F45dF7A31e46b9155'
+// const account = '0x90C6577Fb57edF1921ae3F7F45dF7A31e46b9155'
 
-const userPositions = getPositions([account])
-
-
+// const userPositions = getPositions([account])
 
 mongoose.connect(source)
+    .catch((err) => {
+        console.log(err);
+    });
 const connection = mongoose.connection
-connection.once('open', () => {
+connection.once('open', async () => {
     console.log("DB connected.");
-    console.log("burtrico userPositions", userPositions)
+    // console.log("burtrico userPositions", await userPositions)
 })
 
 const userRoutes = require('./controllers/user.controller')
 app.use('/users', userRoutes)
+
+const positionRoutes = require('./controllers/position.controller')
+app.use('/positions', positionRoutes)
 
 const PORT = process.env.PORT || 6000
 app.listen(PORT, ()=>{
