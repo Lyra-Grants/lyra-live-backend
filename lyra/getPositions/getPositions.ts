@@ -2,6 +2,7 @@ import yargs from 'yargs'
 import getLyra from '../utils/getLyra'
 import getSigner from '../utils/getSigner'
 import { IPosition } from '../../models/position.model'
+import { BigNumber } from '@ethersproject/bignumber'
 
 // const lyra = new Lyra()
 
@@ -24,25 +25,29 @@ const getPositions = async (argv: string[]) => {
     // const account = args.account ?? signer.address
     const positions = isOpen ? await lyra.openPositions(account) : await lyra.positions(account)
 
-    
+    const BNtoNumber = (BN: BigNumber) => {
+        // Change the 18 (ether) to 9 for gwei
+        return ethers.utils.formatUnits(BN, 18) 
+    }
+    // let valueBN: BigNumber = ethers.BigNumber.from(value)
 
     const userPositions = await positions.map((pos): IPosition => ({
         dataSource: pos.__source,
         positionId: pos.id,
         // owner?: ,
-        size: pos.size,
+        size: BNtoNumber(pos.size),
         isOpen: pos.isOpen,
         isCall: pos.isCall,
         isLong: pos.isLong,
         isSettled: pos.isSettled,
         isBaseCollateral: pos.collateral?.isBase,
         numTrades: pos.trades().length,
-        avgCostPerOption: pos.avgCostPerOption(),
-        pricePerOption: pos.pricePerOption,
-        realizedPnl: pos.realizedPnl(),
-        realizedPnlPercent: pos.realizedPnlPercent(),
-        unrealizedPnl: pos.unrealizedPnl(),
-        unrealizedPnlPercent: pos.unrealizedPnlPercent(),
+        avgCostPerOption: BNtoNumber(pos.avgCostPerOption()),
+        pricePerOption: BNtoNumber(pos.pricePerOption),
+        realizedPnl: BNtoNumber(pos.realizedPnl()),
+        realizedPnlPercent: BNtoNumber(pos.realizedPnlPercent()),
+        unrealizedPnl: BNtoNumber(pos.unrealizedPnl()),
+        unrealizedPnlPercent: BNtoNumber(pos.unrealizedPnlPercent()),
     }))
     return userPositions;
 }

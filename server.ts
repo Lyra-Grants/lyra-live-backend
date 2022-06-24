@@ -28,9 +28,9 @@ const source = process.env.ATLAS_CONNECTION
 // const userPositions = getPositions([account])
 
 mongoose.connect(source)
-    .catch((err) => {
-        console.log(err);
-    });
+    // .catch((err) => {
+    //     console.log(err);
+    // });
 const connection = mongoose.connection
 connection.once('open', async () => {
     console.log("DB connected.");
