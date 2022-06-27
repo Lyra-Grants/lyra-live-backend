@@ -1,8 +1,9 @@
 import yargs from 'yargs'
 import getLyra from '../utils/getLyra'
 import getSigner from '../utils/getSigner'
-import { IPosition } from '../../models/position.model'
+import { IPosition } from '../../models/position'
 import { BigNumber } from '@ethersproject/bignumber'
+import { ethers } from 'ethers'
 
 // const lyra = new Lyra()
 
@@ -11,7 +12,7 @@ import { BigNumber } from '@ethersproject/bignumber'
 // You can also get a rolling average of position.realizedPnlPercentage() 
 // based on trade size to get an idea of their profits relative to capital
 
-const getPositions = async (argv: string[]) => {
+const getLyraPositions = async (argv: string[]) => {
     const lyra = getLyra()
 
     // const signer = getSigner(lyra)
@@ -52,4 +53,4 @@ const getPositions = async (argv: string[]) => {
     return userPositions;
 }
 
-export default getPositions;
+export default getLyraPositions;
