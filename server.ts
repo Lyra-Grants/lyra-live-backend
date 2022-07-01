@@ -24,9 +24,7 @@ const source = process.env.ATLAS_CONNECTION
 // const userPositions = getPositions([account])
 
 mongoose.connect(source)
-    // .catch((err) => {
-    //     console.log(err);
-    // });
+
 const connection = mongoose.connection
 connection.once('open', async () => {
     console.log("DB connected.");
@@ -39,7 +37,7 @@ app.use('/users', userRoutes)
 const positionRoutes = require('./controllers/position.controller')
 app.use('/positions', positionRoutes)
 
-const PORT = process.env.PORT || 6000
+const PORT = process.env.PORT || 4000
 app.listen(PORT, ()=>{
     console.log(`Successfully served on port: ${PORT}.`);
 })

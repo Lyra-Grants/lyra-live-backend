@@ -1,8 +1,8 @@
-import getPositions from "./lyra/getPositions/getPositions";
+import getLyraPositions from './src/lyra/getLyraPositions';
 
 const account = '0x90C6577Fb57edF1921ae3F7F45dF7A31e46b9155'
 
-const userPositions = getPositions([account])
+const userPositions = getLyraPositions([account])
 
 console.log("userPositions", userPositions)
 

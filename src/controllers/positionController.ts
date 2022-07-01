@@ -14,18 +14,18 @@ router.route('/new').post((req: Request, res: Response) => {
         .catch(err => res.status(400).json("Error! " + err))
 })
 
-interface AccountsI {
-    accounts: string[];
-}
+// interface AccountsI {
+//     accounts: string[];
+// }
 
-const accounts: string[] = ['fff', 'ggg']
+// const accounts: string[] = ['0xfff', '0xggg']
 
-const addPositions = async (req: Request, res: Response) => {
-    for (let i = 0; i < accounts.length; i++) {
-        const userPositions = await getLyraPositions([accounts[i]])
+// const addPositions = async (req: Request, res: Response) => {
+//     for (let i = 0; i < accounts.length; i++) {
+//         const userPositions = await getLyraPositions([accounts[i]])
     
-    }
-}
+//     }
+// }
 
 
 
