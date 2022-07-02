@@ -1,8 +1,11 @@
-import * as express from 'express'
+import express from 'express'
 import { Application } from 'express'
 import { json } from 'body-parser'
 import * as dotenv from 'dotenv'
 dotenv.config()
+
+import positionRouter from './src/controllers/positionController'
+import userRouter from './src/controllers/userController'
 
 const app: Application = express()
 
@@ -31,11 +34,8 @@ connection.once('open', async () => {
     // console.log("burtrico userPositions", await userPositions)
 })
 
-const userRoutes = require('./controllers/user.controller')
-app.use('/users', userRoutes)
-
-const positionRoutes = require('./controllers/position.controller')
-app.use('/positions', positionRoutes)
+app.use('/users', userRouter)
+app.use('/positions', positionRouter)
 
 const PORT = process.env.PORT || 4000
 app.listen(PORT, ()=>{
