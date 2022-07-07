@@ -1,17 +1,61 @@
 // position controller
-import { Position, IPosition } from '../models/position'
+import { Position, addPosition } from '../models/position'
 import { Request, Response, Router } from 'express'
+import { apiErrorHandler } from '../handlers/errorHandler';
 
 import getLyraPositions from "../lyra/getLyraPositions/getLyraPositions";
 
 const positionRouter = Router()
 
- positionRouter.route('/new').post((req: Request, res: Response) => {
-    const newPosition = new Position(req.body)
+/**
+  * Add Position Function
+  */
+ positionRouter.route('/new').post(async (req: Request, res: Response) => {
+    const {
+        _id,
+        dataSource,
+        positionId,
+        owner,
+        size,
+        isOpen,
+        isCall,
+        isLong,
+        isSettled,
+        isBaseCollateral,
+        numTrades,
+        avgCostPerOption,
+        pricePerOption,
+        realizedPnl,
+        realizedPnlPercent,
+        unrealizedPnl,
+        unrealizedPnlPercent,
+    } = req.body
 
-    newPosition.save()
-        .then(position => res.json(position))
-        .catch(err => res.status(400).json("Error! " + err))
+    try {
+        const newPosition = await addPosition(  
+            _id,
+            dataSource,
+            positionId,
+            owner,
+            size,
+            isOpen,
+            isCall,
+            isLong,
+            isSettled,
+            isBaseCollateral,
+            numTrades,
+            avgCostPerOption,
+            pricePerOption,
+            realizedPnl,
+            realizedPnlPercent,
+            unrealizedPnl,
+            unrealizedPnlPercent
+        )
+
+        res.json({"success": true, "message": null, "data": newPosition});
+    } catch (error) {
+        apiErrorHandler(error, req, res, 'Add Position failed.');
+    }
 })
 
 // interface AccountsI {
@@ -26,8 +70,6 @@ const positionRouter = Router()
     
 //     }
 // }
-
-
 
 
 

@@ -1,5 +1,47 @@
 import { Schema, model, Types } from 'mongoose';
 
+// user model
+const userSchema = new Schema({
+    _id: Types.ObjectId,
+    account: { type: String, required: true },
+    ens: String,
+    avatar: String,
+    trades_count: Number,
+    duration: String,
+    favorite_asset: String,
+    pnl: Number,
+    positions: [{ type: Schema.Types.ObjectId, ref: 'Position' }],
+})
+
+export const User = model('User', userSchema)
+
+
+export const addUser = async(
+    _id: Types.ObjectId,
+    account: String,
+    ens: String,
+    avatar: String,
+    trades_count:  Number,
+    duration: String,
+    favorite_asset: String,
+    pnl: Number,
+    positions: Types.ObjectId[],
+    ) => {
+    const newUser = new User({
+        _id,
+        account,
+        ens,
+        avatar,
+        trades_count,
+        duration,
+        favorite_asset,
+        pnl,
+        positions,
+    });
+  
+    return newUser.save();
+  }
+
 interface IUser {
     _id?: Types.ObjectId;
     account: String;
@@ -9,21 +51,5 @@ interface IUser {
     duration?: String;
     favorite_asset?: String;
     pnl?: Number;
-    position?: Types.ObjectId;
+    positions?: Types.ObjectId[];
 }
-
-// user model
-const userSchema = new Schema<IUser>({
-    _id: { type: Types.ObjectId },
-    account: { type: String, required: true },
-    ens: { type: String },
-    avatar: { type: String },
-    trades_count: { type: Number },
-    duration: { type: String },
-    favorite_asset: { type: String },
-    pnl: { type: Number },
-    position: { type: Schema.Types.ObjectId, ref: 'Position' },
-})
-
-export const User = model('User', userSchema)
-module.exports = User
