@@ -1,15 +1,40 @@
 // user controller
-import { User } from '../models/user'
-import { Router } from 'express'
+import { User, addUser } from '../models/user'
+import { Request, Response, Router } from 'express'
+import { apiErrorHandler } from '../handlers/errorHandler';
 
 const userRouter = Router()
 
-userRouter.route('/new').post((req, res) => {
-    const newUser = new User(req.body)
+userRouter.route('/new').post(async (req: Request, res: Response) => {
+    const {
+        _id,
+        account,
+        ens,
+        avatar,
+        trades_count,
+        duration,
+        favorite_asset,
+        pnl,
+        positions,
+    } = req.body
 
-    newUser.save()
-        .then(user => res.json(user))
-        .catch(err => res.status(400).json("Error! " + err))
+    try {
+        const newUser = await addUser(  
+            _id,
+            account,
+            ens,
+            avatar,
+            trades_count,
+            duration,
+            favorite_asset,
+            pnl,
+            positions,
+        )
+
+        res.json({"success": true, "message": null, "data": newUser});
+    } catch (error) {
+        apiErrorHandler(error, req, res, 'Add User failed.');
+    }
 })
 
 userRouter.route('/').get((req, res) => {
