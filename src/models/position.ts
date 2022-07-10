@@ -4,7 +4,7 @@ import { Schema, model, Types } from 'mongoose';
 const positionSchema = new Schema({
     _id: Types.ObjectId,
     dataSource: String,
-    positionId: { type: Number, required: true },
+    positionId: { type: Number, required: true, unique: true },
     owner: { type: Schema.Types.ObjectId, ref: 'User' },
     size: String,
     isOpen: Boolean,
