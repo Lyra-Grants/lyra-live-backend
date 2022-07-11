@@ -71,8 +71,8 @@ userRouter.route('/delete/:id').delete((req: Request, res: Response, next: NextF
         .catch(err => res.status(400).json('Error! ' + err))
 })
 
-userRouter.route('/update/:id').put((req: Request, res: Response, next: NextFunction) => {
-    User.findByIdAndUpdate(req.params.id, req.body)
+userRouter.route('/update/:account').put((req: Request, res: Response, next: NextFunction) => {
+    User.findByIdAndUpdate(req.params.account, req.body)
         .then(user => res.json('Success! User updated.'))
         .catch(err => res.status(400).json('Error! ' + err))
 })
