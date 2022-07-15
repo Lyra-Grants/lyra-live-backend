@@ -80,11 +80,11 @@ const putFetchUser = (address: string) => {
     return answer
 }
 
-
-
 const addUpdateUser = async (accounts: string[]) => {
     for (let i = 0; i < accounts.length; i++) {
         const userPositions = await getLyraPositions([accounts[i]])
+
+        // const pnl = userPositions.map(position => )
 
         // First, need to post user positions to the DB and store in positions (array)
         // Second, need to calculate pnl of all positions
