@@ -28,7 +28,7 @@ const getLyraPositions = async (argv: string[]) => {
 
     const BNtoNumber = (BN: BigNumber) => {
         // Change the 18 (ether) to 9 for gwei
-        return ethers.utils.formatUnits(BN, 18) 
+        return Number(ethers.utils.formatUnits(BN, 18))
     }
     // let valueBN: BigNumber = ethers.BigNumber.from(value)
 

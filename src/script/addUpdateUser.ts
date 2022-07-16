@@ -1,5 +1,5 @@
 import getLyraPositions from "../lyra/getLyraPositions/getLyraPositions";
-// import { Position, IPosition } from '../models/position'
+import { Position, IPosition } from '../models/position'
 import userRouter from '../controllers/userController';
 import positionRouter from '../controllers/positionController';
 import { response } from "express";
@@ -84,7 +84,11 @@ const addUpdateUser = async (accounts: string[]) => {
     for (let i = 0; i < accounts.length; i++) {
         const userPositions = await getLyraPositions([accounts[i]])
 
-        // const pnl = userPositions.map(position => )
+        let pnl: number = 0
+
+        userPositions.map((position: IPosition) => {
+            if(position.realizedPnl) pnl = pnl + position.realizedPnl
+        })
 
         // First, need to post user positions to the DB and store in positions (array)
         // Second, need to calculate pnl of all positions
