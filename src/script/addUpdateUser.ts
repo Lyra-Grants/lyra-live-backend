@@ -6,6 +6,7 @@ import { response } from "express";
 // import { addUser } from "../models/user";
 
 const accountsArray: string[] = ['fff', 'ggg']
+const DB_URL = 'http://localhost:4000'
 
 const getFetchUser = (address: string) => {
     const getObj = {
@@ -20,7 +21,7 @@ const getFetchUser = (address: string) => {
         })
     }
     let answer: any
-    fetch('/', getObj)
+    fetch(`${DB_URL}/`, getObj)
     .then(res => res.json())
     .then(result => answer = result)
     return answer
@@ -47,7 +48,7 @@ const postFetchUser = (address: string) => {
         })
     }
     let answer: any
-    fetch('/new', postObj)
+    fetch(`${DB_URL}/new`, postObj)
     .then(res => res.json())
     .then(result => answer = result)
     return answer
@@ -74,7 +75,7 @@ const putFetchUser = (address: string) => {
         })
     }
     let answer: any
-    fetch(`/update/${address}`, putObj)
+    fetch(`${DB_URL}/update/${address}`, putObj)
     .then(res => res.json())
     .then(result => answer = result)
     return answer
