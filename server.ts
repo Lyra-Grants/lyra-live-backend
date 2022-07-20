@@ -22,9 +22,17 @@ const mongoose = require('mongoose')
 // allow us to hide our connection secret in the process.env object
 const source = process.env.ATLAS_CONNECTION
 
-// import getPositions from "./lyra/getPositions/getPositions";
-// const account = '0x90C6577Fb57edF1921ae3F7F45dF7A31e46b9155'
-// const userPositions = getPositions([account])
+import getLyraPositions from "./src/lyra/getLyraPositions/getLyraPositions";
+
+const userPositions = getLyraPositions(['0x23c5c19d2ad460b7cd1ea5d6a2274a3c53733238'])
+
+const getPos = async()=> {
+
+    const pos = await userPositions
+    console.log("positoons =", pos)
+
+}
+getPos()
 
 mongoose.connect(source)
 

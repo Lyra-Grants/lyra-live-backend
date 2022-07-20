@@ -6,19 +6,19 @@ const positionSchema = new Schema({
     dataSource: String,
     positionId: { type: Number, required: true, unique: true },
     owner: { type: Schema.Types.ObjectId, ref: 'User' },
-    size: String,
+    size: Number,
     isOpen: Boolean,
     isCall: Boolean,
     isLong: Boolean,
     isSettled: Boolean,
     isBaseCollateral: Boolean,
     numTrades: Number,
-    avgCostPerOption: String,
-    pricePerOption: String,
-    realizedPnl: String,
-    realizedPnlPercent: String,
-    unrealizedPnl: String,
-    unrealizedPnlPercent: String,
+    avgCostPerOption: Number,
+    pricePerOption: Number,
+    realizedPnl: Number,
+    realizedPnlPercent: Number,
+    unrealizedPnl: Number,
+    unrealizedPnlPercent: Number,
 })
 
 export const Position = model('Position', positionSchema)
@@ -26,22 +26,22 @@ export const Position = model('Position', positionSchema)
 
 export const addPosition = async(
   _id: Types.ObjectId,
-  dataSource: String,
-  positionId: Number,
+  dataSource: string,
+  positionId: number,
   owner: Types.ObjectId,
-  size: String,
-  isOpen: Boolean,
-  isCall: Boolean,
-  isLong: Boolean,
-  isSettled: Boolean,
-  isBaseCollateral: Boolean,
-  numTrades: Number,
-  avgCostPerOption: String,
-  pricePerOption: String,
-  realizedPnl: String,
-  realizedPnlPercent: String,
-  unrealizedPnl: String,
-  unrealizedPnlPercent: String,
+  size: number,
+  isOpen: boolean,
+  isCall: boolean,
+  isLong: boolean,
+  isSettled: boolean,
+  isBaseCollateral: boolean,
+  numTrades: number,
+  avgCostPerOption: number,
+  pricePerOption: number,
+  realizedPnl: number,
+  realizedPnlPercent: number,
+  unrealizedPnl: number,
+  unrealizedPnlPercent: number,
   ) => {
   const newPosition = new Position({
     _id,
@@ -68,20 +68,20 @@ export const addPosition = async(
 
 export interface IPosition {
     _id?: Types.ObjectId;
-    dataSource?: String;
-    positionId: Number;
+    dataSource?: string;
+    positionId: number;
     owner?: Types.ObjectId;
-    size?: String;
-    isOpen?: Boolean;
-    isCall?: Boolean;
-    isLong?: Boolean;
-    isSettled?: Boolean;
-    isBaseCollateral?: Boolean;
-    numTrades?: Number;
-    avgCostPerOption?: String;
-    pricePerOption?: String;
-    realizedPnl?: String;
-    realizedPnlPercent?: String;
-    unrealizedPnl?: String;
-    unrealizedPnlPercent?: String;
+    size?: number;
+    isOpen?: boolean;
+    isCall?: boolean;
+    isLong?: boolean;
+    isSettled?: boolean;
+    isBaseCollateral?: boolean;
+    numTrades?: number;
+    avgCostPerOption?: number;
+    pricePerOption?: number;
+    realizedPnl?: number;
+    realizedPnlPercent?: number;
+    unrealizedPnl?: number;
+    unrealizedPnlPercent?: number;
   }

@@ -15,20 +15,21 @@ import { ethers } from 'ethers'
 const getLyraPositions = async (argv: string[]) => {
     const lyra = getLyra()
 
-    // const signer = getSigner(lyra)
     const args = await yargs(argv).options({
     account: { type: 'string', alias: 'a', require: false },
     open: { type: 'boolean', alias: 'o', require: false },
     }).argv
 
+    console.log("args", args)
+
     const isOpen = args.open
-    const account = args.account ?? '0x90C6577Fb57edF1921ae3F7F45dF7A31e46b9155'
+    const account = args.account ?? '0x23c5c19d2ad460b7cd1ea5d6a2274a3c53733238'
     // const account = args.account ?? signer.address
     const positions = isOpen ? await lyra.openPositions(account) : await lyra.positions(account)
 
     const BNtoNumber = (BN: BigNumber) => {
         // Change the 18 (ether) to 9 for gwei
-        return ethers.utils.formatUnits(BN, 18) 
+        return Number(ethers.utils.formatUnits(BN, 18))
     }
     // let valueBN: BigNumber = ethers.BigNumber.from(value)
 
