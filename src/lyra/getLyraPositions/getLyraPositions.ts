@@ -12,6 +12,17 @@ import { ethers } from 'ethers'
 // You can also get a rolling average of position.realizedPnlPercentage() 
 // based on trade size to get an idea of their profits relative to capital
 
+// If yargs is executed in an environment that embeds node and there’s no script 
+// name (e.g. Electron or nw.js), it will ignore the first parameter since it 
+// expects it to be the script name. In order to override this behavior, use 
+// .parse(process.argv.slice(1)) instead of .argv and the first parameter won’t be ignored.
+
+export interface Ioptions {
+    type: string;
+    alias: string;
+    require: boolean;
+}
+
 const getLyraPositions = async (argv: string[]) => {
     const lyra = getLyra()
 

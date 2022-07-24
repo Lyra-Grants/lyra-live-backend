@@ -24,7 +24,7 @@ const source = process.env.ATLAS_CONNECTION
 
 import getLyraPositions from "./src/lyra/getLyraPositions/getLyraPositions";
 
-const userPositions = getLyraPositions(['0x23c5c19d2ad460b7cd1ea5d6a2274a3c53733238'])
+const userPositions = getLyraPositions(['a', '0x23c5c19d2ad460b7cd1ea5d6a2274a3c53733238'])
 
 const getPos = async()=> {
 
