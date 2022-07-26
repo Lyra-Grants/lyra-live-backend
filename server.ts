@@ -22,24 +22,16 @@ const mongoose = require('mongoose')
 // allow us to hide our connection secret in the process.env object
 const source = process.env.ATLAS_CONNECTION
 
+
 import getLyraPositions from "./src/lyra/getLyraPositions/getLyraPositions";
+// getLyraPositions('0x23c5c19d2ad460b7cd1ea5d6a2274a3c53733238')
 
-const userPositions = getLyraPositions(['a', '0x23c5c19d2ad460b7cd1ea5d6a2274a3c53733238'])
-
-const getPos = async()=> {
-
-    const pos = await userPositions
-    console.log("positoons =", pos)
-
-}
-getPos()
 
 mongoose.connect(source)
 
 const connection = mongoose.connection
 connection.once('open', async () => {
     console.log("DB connected.");
-    // console.log("burtrico userPositions", await userPositions)
 })
 
 app.use('/users', userRouter)

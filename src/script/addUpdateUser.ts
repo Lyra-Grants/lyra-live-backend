@@ -83,24 +83,24 @@ const putFetchUser = (address: string) => {
 
 const addUpdateUser = async (accounts: string[]) => {
     for (let i = 0; i < accounts.length; i++) {
-        const userPositions = await getLyraPositions([accounts[i]])
+        const userPositions = await getLyraPositions(accounts[i]);
 
-        let pnl: number = 0
+        let pnl: number = 0;
 
         userPositions.map((position: IPosition) => {
             if(position.realizedPnl) pnl = pnl + position.realizedPnl
-        })
-
+        });
+        console.log("pnl =", pnl)
         // First, need to post user positions to the DB and store in positions (array)
         // Second, need to calculate pnl of all positions
 
-        const userExists = await getFetchUser(accounts[i])
+        const userExists = await getFetchUser(accounts[i]);
         if(!userExists.success) {
             // Need to replace the status 400 below to match the error message from not finding the user in the DB
             if(userExists.message === `status 400`) await postFetchUser(accounts[i])
             else console.log(userExists.message)
         }
-        else if (userExists.success) await putFetchUser(accounts[i])
+        else if (userExists.success) await putFetchUser(accounts[i]);
 
         
     }

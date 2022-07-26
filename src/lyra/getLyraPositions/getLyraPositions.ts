@@ -1,42 +1,14 @@
-import yargs from 'yargs'
 import getLyra from '../utils/getLyra'
-import getSigner from '../utils/getSigner'
 import { IPosition } from '../../models/position'
 import { BigNumber } from '@ethersproject/bignumber'
 import { ethers } from 'ethers'
 
-// const lyra = new Lyra()
 
-// I would get a trader's positions using lyra.positions() 
-// and add up position.realizedPnl() for net realized profits
-// You can also get a rolling average of position.realizedPnlPercentage() 
-// based on trade size to get an idea of their profits relative to capital
+const getLyraPositions = async (account: string) => {
+    const lyra = getLyra();
 
-// If yargs is executed in an environment that embeds node and there’s no script 
-// name (e.g. Electron or nw.js), it will ignore the first parameter since it 
-// expects it to be the script name. In order to override this behavior, use 
-// .parse(process.argv.slice(1)) instead of .argv and the first parameter won’t be ignored.
-
-export interface Ioptions {
-    type: string;
-    alias: string;
-    require: boolean;
-}
-
-const getLyraPositions = async (argv: string[]) => {
-    const lyra = getLyra()
-
-    const args = await yargs(argv).options({
-    account: { type: 'string', alias: 'a', require: false },
-    open: { type: 'boolean', alias: 'o', require: false },
-    }).argv
-
-    console.log("args", args)
-
-    const isOpen = args.open
-    const account = args.account ?? '0x23c5c19d2ad460b7cd1ea5d6a2274a3c53733238'
-    // const account = args.account ?? signer.address
-    const positions = isOpen ? await lyra.openPositions(account) : await lyra.positions(account)
+    const positions = await lyra.positions(account);
+    // const openPositions = await lyra.openPositions(account);
 
     const BNtoNumber = (BN: BigNumber) => {
         // Change the 18 (ether) to 9 for gwei
@@ -47,7 +19,6 @@ const getLyraPositions = async (argv: string[]) => {
     const userPositions = await positions.map((pos): IPosition => ({
         dataSource: pos.__source,
         positionId: pos.id,
-        // owner?: ,
         size: BNtoNumber(pos.size),
         isOpen: pos.isOpen,
         isCall: pos.isCall,
@@ -61,7 +32,9 @@ const getLyraPositions = async (argv: string[]) => {
         realizedPnlPercent: BNtoNumber(pos.realizedPnlPercent()),
         unrealizedPnl: BNtoNumber(pos.unrealizedPnl()),
         unrealizedPnlPercent: BNtoNumber(pos.unrealizedPnlPercent()),
-    }))
+    }));
+    console.log(">>> userPositions =",userPositions)
+    
     return userPositions;
 }
 
