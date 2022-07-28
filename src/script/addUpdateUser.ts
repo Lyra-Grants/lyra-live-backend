@@ -5,7 +5,7 @@ import positionRouter from '../controllers/positionController';
 import { response } from "express";
 // import { addUser } from "../models/user";
 
-const accountsArray: string[] = ['fff', 'ggg']
+const accountsArray: string[] = ['0x90C6577Fb57edF1921ae3F7F45dF7A31e46b9155', '0x23c5c19d2ad460b7cd1ea5d6a2274a3c53733238']
 const DB_URL = 'http://localhost:4000'
 
 const getFetchUser = (address: string) => {
@@ -27,7 +27,7 @@ const getFetchUser = (address: string) => {
     return answer
 }
 
-const postFetchUser = (address: string) => {
+const postFetchUser = (address: string, currentPnl: number) => {
      const postObj = {
         method: 'POST',
         headers: {
@@ -35,14 +35,13 @@ const postFetchUser = (address: string) => {
         },
         body: JSON.stringify({
             user: {
-                account: address
-                // ,
+                account: address,
                 // ens,
                 // avatar,
                 // trades_count,
                 // duration,
                 // favorite_asset,
-                // pnl,
+                pnl: currentPnl,
                 // positions,
             }
         })
@@ -54,7 +53,7 @@ const postFetchUser = (address: string) => {
     return answer
 }
 
-const putFetchUser = (address: string) => {
+const putFetchUser = (address: string, currentPnl: number) => {
     const putObj = {
         method: 'PUT',
         headers: {
@@ -62,14 +61,13 @@ const putFetchUser = (address: string) => {
         },
         body: JSON.stringify({
             user: {
-                account: address
-                // ,
+                account: address,
                 // ens,
                 // avatar,
                 // trades_count,
                 // duration,
                 // favorite_asset,
-                // pnl,
+                pnl: currentPnl,
                 // positions,
             }
         })
@@ -95,14 +93,13 @@ const addUpdateUser = async (accounts: string[]) => {
         // Second, need to calculate pnl of all positions
 
         const userExists = await getFetchUser(accounts[i]);
+        console.log("userExists =", userExists)
         if(!userExists.success) {
             // Need to replace the status 400 below to match the error message from not finding the user in the DB
-            if(userExists.message === `status 400`) await postFetchUser(accounts[i])
+            if(userExists.message === `status 400`) await postFetchUser(accounts[i], pnl)
             else console.log(userExists.message)
         }
-        else if (userExists.success) await putFetchUser(accounts[i]);
-
-        
+        else if (userExists.success) await putFetchUser(accounts[i], pnl);
     }
 }
 
