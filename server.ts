@@ -23,24 +23,33 @@ const mongoose = require('mongoose')
 const source = process.env.ATLAS_CONNECTION
 
 
-import getLyraPositions from "./src/lyra/getLyraPositions/getLyraPositions";
+// import getLyraPositions from "./src/lyra/getLyraPositions/getLyraPositions";
 // getLyraPositions('0x23c5c19d2ad460b7cd1ea5d6a2274a3c53733238')
 
-import addUpdateUser from "./src/script/addUpdateUser";
-addUpdateUser(['0x90C6577Fb57edF1921ae3F7F45dF7A31e46b9155', '0x23c5c19d2ad460b7cd1ea5d6a2274a3c53733238'])
+// import addUpdateUser from "./src/script/addUpdateUser";
+// addUpdateUser(['0x90C6577Fb57edF1921ae3F7F45dF7A31e46b9155', '0x23c5c19d2ad460b7cd1ea5d6a2274a3c53733238'])
 
 
-mongoose.connect(source)
+const server = async() => {
+    await mongoose.connect(source)
 
-const connection = mongoose.connection
-connection.once('open', async () => {
-    console.log("DB connected.");
-})
+    const connection = mongoose.connection
 
-app.use('/users', userRouter)
-app.use('/positions', positionRouter)
+    connection.once('open', async () => {
+        console.log("DB connected.");
+    })
 
-const PORT = process.env.PORT || 4000
-app.listen(PORT, ()=>{
-    console.log(`Successfully served on port: ${PORT}.`);
-})
+    app.use('/users', userRouter)
+    app.use('/positions', positionRouter)
+
+    const PORT = process.env.PORT || 4000
+    app.listen(PORT, ()=>{
+        console.log(`Successfully served on port: ${PORT}.`);
+    })
+    
+    return mongoose
+}
+
+export default server;
+
+
