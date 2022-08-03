@@ -47,7 +47,17 @@ const addUpdateUser = async (accounts: string[]) => {
                     }
                     else console.log(userExists.message)
                 }
-                else if (userExists.success) await User.findOneAndUpdate({account: accounts[i], pnl: currentPnl});
+                else if (userExists.success) await User.findOneAndUpdate({
+                    // _id,
+                    account: accounts[i],
+                    // ens,
+                    // avatar,
+                    // trades_count,
+                    // duration,
+                    // favorite_asset,
+                    pnl: currentPnl,
+                    // positions,
+                });
             }
 
         } finally {
