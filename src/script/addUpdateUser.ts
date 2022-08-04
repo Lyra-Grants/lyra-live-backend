@@ -29,9 +29,10 @@ const addUpdateUser = async (accounts: string[]) => {
                 console.log("userExists =", userExists)
 
 
-                if(!userExists.success) {
+                if(!userExists) {
                     // Need to replace the status 400 below to match the error message from not finding the user in the DB
-                    if(userExists.message === `status 400`) {
+
+                    // if(userExists.message === `status 400`) {
                         const newUser = new User({
                             // _id,
                             account: accounts[i],
@@ -44,10 +45,11 @@ const addUpdateUser = async (accounts: string[]) => {
                             // positions,
                         });
                         await newUser.save();
-                    }
-                    else console.log(userExists.message)
+                    // }
+                    // else console.log(userExists.message)
+                    
                 }
-                else if (userExists.success) await User.findOneAndUpdate({
+                else if (userExists) await User.findOneAndUpdate({
                     // _id,
                     account: accounts[i],
                     // ens,

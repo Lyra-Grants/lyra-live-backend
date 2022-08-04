@@ -42,7 +42,7 @@ export const addUser = async(
     return newUser.save();
   }
 
-interface IUser {
+export interface IUser {
     _id?: Types.ObjectId;
     account: String;
     ens?: String;
