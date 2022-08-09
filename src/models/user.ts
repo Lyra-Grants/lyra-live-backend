@@ -3,7 +3,13 @@ import { Schema, model, Types } from 'mongoose';
 // user model
 const userSchema = new Schema({
     _id: Types.ObjectId,
-    account: { type: String, required: true, unique: true },
+    account: { 
+        type: String, 
+        lowercase: true, 
+        required: true, 
+        trim: true,
+        unique: true
+    },
     ens: String,
     avatar: String,
     trades_count: Number,

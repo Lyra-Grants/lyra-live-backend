@@ -33,9 +33,12 @@ const source = process.env.ATLAS_CONNECTION
 const server = async() => {
     await mongoose.connect(source)
 
-    const connection = mongoose.connection
+    const db = mongoose.connection
 
-    connection.once('open', async () => {
+    //Bind connection to error event (to get notification of connection errors)
+    db.on('error', console.error.bind(console, 'MongoDB connection error:'));   
+
+    db.once('open', async () => {
         console.log("DB connected.");
     })
 

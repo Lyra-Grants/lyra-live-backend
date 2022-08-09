@@ -44,10 +44,13 @@ const addUpdateUser = async (accounts: string[]) => {
                             pnl: currentPnl,
                             // positions,
                         });
-                        await newUser.save();
+                        await newUser.save(function (err) {
+                            // if (err) return handleError(err);
+                            // saved!
+                          });
                     // }
                     // else console.log(userExists.message)
-                    
+
                 }
                 else if (userExists) await User.findOneAndUpdate({
                     // _id,
