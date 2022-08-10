@@ -1,6 +1,7 @@
 import getLyraPositions from "../lyra/getLyraPositions/getLyraPositions";
 import { Position, IPosition } from '../models/position'
-import { addUser, User, IUser } from '../models/user'
+import { addUser, User} from '../models/user'
+import { tUser } from '../types/user' 
 import userRouter from '../controllers/userController';
 import positionRouter from '../controllers/positionController';
 import { Response } from "express";
