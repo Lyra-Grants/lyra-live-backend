@@ -5,7 +5,6 @@ import { tUser } from '../types/user'
 import userRouter from '../controllers/userController';
 import positionRouter from '../controllers/positionController';
 import { Response } from "express";
-// import { addUser } from "../models/user";
 import server from '../../server'
 
 const accountsArray: string[] = ['0x90C6577Fb57edF1921ae3F7F45dF7A31e46b9155', '0x23c5c19d2ad460b7cd1ea5d6a2274a3c53733238']
@@ -23,11 +22,11 @@ const addUpdateUser = async (accounts: string[]) => {
                 userPositions.map((position: IPosition) => {
                     if(position.realizedPnl) currentPnl = currentPnl + position.realizedPnl
                 });
-                console.log("current pnl =", currentPnl)
+                // console.log("current pnl =", currentPnl)
         
                 const userExists = await User.findOne({account: accounts[i]});
 
-                console.log("userExists =", userExists)
+                // console.log("userExists =", userExists)
 
 
                 if(!userExists) {
