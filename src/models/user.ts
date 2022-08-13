@@ -2,7 +2,7 @@ import { Schema, model, Types } from 'mongoose';
 
 // user model
 const userSchema = new Schema({
-    _id: Types.ObjectId,
+    // _id: Types.ObjectId,
     account: { 
         type: String, 
         lowercase: true, 
@@ -23,7 +23,7 @@ export const User = model('User', userSchema)
 
 
 export const addUser = async(
-    _id: Types.ObjectId,
+    // _id: Types.ObjectId,
     account: String,
     ens: String,
     avatar: String,
@@ -34,7 +34,7 @@ export const addUser = async(
     positions: Types.ObjectId[],
     ) => {
     const newUser = new User({
-        _id,
+        // _id,
         account,
         ens,
         avatar,

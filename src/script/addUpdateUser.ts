@@ -13,7 +13,6 @@ const DB_URL = 'http://localhost:4000'
 const addUpdateUser = async (accounts: string[]) => {
     await server().then(async (mongoose) => {
         try {
-
             for (let i = 0; i < accounts.length; i++) {
                 const userPositions = await getLyraPositions(accounts[i]);
         
@@ -24,35 +23,10 @@ const addUpdateUser = async (accounts: string[]) => {
                 });
                 // console.log("current pnl =", currentPnl)
         
-                const userExists = await User.findOne({account: accounts[i]});
+                const user: any = await User.findOne({account: accounts[i]});
+                console.log("user =", user)
 
-                // console.log("userExists =", userExists)
-
-
-                if(!userExists) {
-                    // Need to replace the status 400 below to match the error message from not finding the user in the DB
-
-                    // if(userExists.message === `status 400`) {
-                        const newUser = new User({
-                            // _id,
-                            account: accounts[i],
-                            // ens,
-                            // avatar,
-                            // trades_count,
-                            // duration,
-                            // favorite_asset,
-                            pnl: currentPnl,
-                            // positions,
-                        });
-                        await newUser.save(function (err) {
-                            // if (err) return handleError(err);
-                            // saved!
-                          });
-                    // }
-                    // else console.log(userExists.message)
-
-                }
-                else if (userExists) await User.findOneAndUpdate({
+                if (user) await User.findOneAndUpdate({
                     // _id,
                     account: accounts[i],
                     // ens,
@@ -62,9 +36,32 @@ const addUpdateUser = async (accounts: string[]) => {
                     // favorite_asset,
                     pnl: currentPnl,
                     // positions,
-                });
-            }
+                })
+                else if (typeof user === 'undefined' || user == null) {
 
+                    try { 
+                        // User.init()
+                        const newUser = new User({
+                        // _id,
+                        account: accounts[i],
+                        // ens,
+                        // avatar,
+                        // trades_count,
+                        // duration,
+                        // favorite_asset,
+                        pnl: currentPnl,
+                        // positions,
+                    });
+                    console.log('before save');
+                    let saveUser = await newUser.save();
+                    console.log(saveUser);
+                    console.log('after save');
+                    } catch (err) {
+                        console.log('err' + err);
+                        // res.status(500).send(err);
+                    }
+                }
+            }
         } finally {
             mongoose.connection.close()
         }
