@@ -7,7 +7,7 @@ const userRouter = Router()
 
 userRouter.route('/new').post(async (req: Request, res: Response, next: NextFunction) => {
     const {
-        _id,
+        // _id,
         account,
         ens,
         avatar,
@@ -41,7 +41,7 @@ userRouter.route('/new').post(async (req: Request, res: Response, next: NextFunc
 
     try {
         const newUser = await addUser(  
-            _id,
+            // _id,
             account,
             ens,
             avatar,

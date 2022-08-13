@@ -2,8 +2,14 @@ import { Schema, model, Types } from 'mongoose';
 
 // user model
 const userSchema = new Schema({
-    _id: Types.ObjectId,
-    account: { type: String, required: true, unique: true },
+    // _id: Types.ObjectId,
+    account: { 
+        type: String, 
+        lowercase: true, 
+        required: true, 
+        trim: true,
+        unique: true
+    },
     ens: String,
     avatar: String,
     trades_count: Number,
@@ -17,7 +23,7 @@ export const User = model('User', userSchema)
 
 
 export const addUser = async(
-    _id: Types.ObjectId,
+    // _id: Types.ObjectId,
     account: String,
     ens: String,
     avatar: String,
@@ -28,7 +34,7 @@ export const addUser = async(
     positions: Types.ObjectId[],
     ) => {
     const newUser = new User({
-        _id,
+        // _id,
         account,
         ens,
         avatar,
@@ -41,15 +47,3 @@ export const addUser = async(
   
     return newUser.save();
   }
-
-export interface IUser {
-    _id?: Types.ObjectId;
-    account: String;
-    ens?: String;
-    avatar?: String;
-    trades_count?:  Number;
-    duration?: String;
-    favorite_asset?: String;
-    pnl?: Number;
-    positions?: Types.ObjectId[];
-}
