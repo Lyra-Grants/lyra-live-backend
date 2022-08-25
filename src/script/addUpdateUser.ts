@@ -17,9 +17,11 @@ const addUpdateUser = async (accounts: string[]) => {
                 const userPositions = await getLyraPositions(accounts[i]);
         
                 let currentPnl: number = 0;
+                let currentPnlPercent: number = 0;
         
                 userPositions.map((position: IPosition) => {
                     if(position.realizedPnl) currentPnl = currentPnl + position.realizedPnl
+                    // if(position.realizedPnlPercent) currentPnlPercent = currentPnlPercent + 
                 });
                 // console.log("current pnl =", currentPnl)
         
