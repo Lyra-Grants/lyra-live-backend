@@ -3,6 +3,12 @@ import addUpdateUser from "./src/script/addUpdateUser";
 
 // const uniqueAccounts = uniqueTraders[0].accounts
 
+const data123 = [
+    "0x23c5c19d2ad460b7cd1ea5d6a2274a3c53733238",
+    "0x9776a4a25e08230aa132865d5fce43bc48f0eb18",
+    "0x4ab3d7f4c46e511ca09eecdac483e43ed96bd7aa"
+]
+
 const data = [
     "0x23c5c19d2ad460b7cd1ea5d6a2274a3c53733238",
     "0x9776a4a25e08230aa132865d5fce43bc48f0eb18",
@@ -1163,5 +1169,6 @@ const data = [
     "0x6b707391c60d50e4e414a143446c0b8ef9a2d1c4"
 ]
 
-addUpdateUser(data);
+addUpdateUser(data123);
+// addUpdateUser(data);
 

@@ -16,14 +16,25 @@ const addUpdateUser = async (accounts: string[]) => {
             for (let i = 0; i < accounts.length; i++) {
                 const userPositions = await getLyraPositions(accounts[i]);
         
-                let currentPnl: number = 0;
-                let currentPnlPercent: number = 0;
-        
+                let tradeCount: number = 0,
+                totalPnl: number = 0,
+                    weightedPnlPercent: number = 0,
+                    totalVolume: number = 0,
+                    totalPnlPercent: number = 0;
+
                 userPositions.map((position: IPosition) => {
-                    if(position.realizedPnl) currentPnl = currentPnl + position.realizedPnl
-                    // if(position.realizedPnlPercent) currentPnlPercent = currentPnlPercent + 
+                    if(position) tradeCount = tradeCount + 1;
+                    if(position.realizedPnl) totalPnl = totalPnl + position.realizedPnl;
+
+                    if(position.realizedPnlPercent && position.size && position.avgCostPerOption) {
+                        totalVolume = totalVolume + position.size * position.avgCostPerOption;
+                        if(position.size > 0 && position.avgCostPerOption > 0)
+                            weightedPnlPercent = weightedPnlPercent + position.realizedPnlPercent / 
+                                (position.size * position.avgCostPerOption);
+                    };
                 });
                 // console.log("current pnl =", currentPnl)
+                totalPnlPercent = weightedPnlPercent / totalVolume
         
                 const user: any = await User.findOne({account: accounts[i]});
                 console.log("user =", user)
@@ -33,10 +44,12 @@ const addUpdateUser = async (accounts: string[]) => {
                     account: accounts[i],
                     // ens,
                     // avatar,
-                    // trades_count,
+                    trades_count: tradeCount,
                     // duration,
                     // favorite_asset,
-                    pnl: currentPnl,
+                    pnl: totalPnl,
+                    volume: totalVolume,
+                    pnlPercent: totalPnlPercent,
                     // positions,
                 })
                 else if (typeof user === 'undefined' || user == null) {
@@ -48,10 +61,12 @@ const addUpdateUser = async (accounts: string[]) => {
                         account: accounts[i],
                         // ens,
                         // avatar,
-                        // trades_count,
+                        trades_count: tradeCount,
                         // duration,
                         // favorite_asset,
-                        pnl: currentPnl,
+                        pnl: totalPnl,
+                        volume: totalVolume,
+                        pnlPercent: totalPnlPercent,
                         // positions,
                     });
                     console.log('before save');

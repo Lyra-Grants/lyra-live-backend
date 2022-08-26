@@ -16,6 +16,8 @@ const userSchema = new Schema({
     duration: String,
     favorite_asset: String,
     pnl: Number,
+    volume: Number,
+    pnlPercent: Number,
     positions: [{ type: Schema.Types.ObjectId, ref: 'Position' }],
 })
 
@@ -31,6 +33,8 @@ export const addUser = async(
     duration: String,
     favorite_asset: String,
     pnl: Number,
+    volume: Number,
+    pnlPercent: Number,
     positions: Types.ObjectId[],
     ) => {
     const newUser = new User({
@@ -42,6 +46,8 @@ export const addUser = async(
         duration,
         favorite_asset,
         pnl,
+        volume,
+        pnlPercent,
         positions,
     });
   
