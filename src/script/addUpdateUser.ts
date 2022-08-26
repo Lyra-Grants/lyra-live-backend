@@ -34,7 +34,8 @@ const addUpdateUser = async (accounts: string[]) => {
                     };
                 });
                 // console.log("current pnl =", currentPnl)
-                totalPnlPercent = weightedPnlPercent / totalVolume
+                if(totalVolume > 0) totalPnlPercent = weightedPnlPercent / totalVolume
+                else totalPnlPercent = 0;
         
                 const user: any = await User.findOne({account: accounts[i]});
                 console.log("user =", user)
