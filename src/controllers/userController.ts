@@ -15,6 +15,8 @@ userRouter.route('/new').post(async (req: Request, res: Response, next: NextFunc
         duration,
         favorite_asset,
         pnl,
+        volume,
+        pnlPercent,
         positions,
     } = req.body
 
@@ -49,6 +51,8 @@ userRouter.route('/new').post(async (req: Request, res: Response, next: NextFunc
             duration,
             favorite_asset,
             pnl,
+            volume,
+            pnlPercent,
             positions,
         )
 
