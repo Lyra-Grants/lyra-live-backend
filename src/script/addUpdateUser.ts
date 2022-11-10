@@ -14,6 +14,10 @@ const addUpdateUser = async (accounts: string[]) => {
     await server().then(async (mongoose) => {
         try {
             for (let i = 0; i < accounts.length; i++) {
+                // Before updating a user, check subgraph events to see if any lyraPositions changed
+
+                // Add each new user
+
                 const userPositions = await getLyraPositions(accounts[i]);
         
                 let tradeCount: number = 0,
