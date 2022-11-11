@@ -11,6 +11,22 @@ const accountsArray: string[] = ['0x90C6577Fb57edF1921ae3F7F45dF7A31e46b9155', '
 const DB_URL = 'http://localhost:4000'
 
 const addUpdateUser = async (accounts: string[]) => {
+    
+    function updateUser(user) {
+        await User.findOneAndUpdate({
+        // _id,
+        account: accounts[i],
+        // ens,
+        // avatar,
+        trades_count: tradeCount,
+        // duration,
+        // favorite_asset,
+        pnl: totalPnl,
+        volume: totalVolume,
+        pnlPercent: totalPnlPercent,
+        // positions,
+    })}
+
     await server().then(async (mongoose) => {
         try {
             for (let i = 0; i < accounts.length; i++) {
@@ -44,19 +60,7 @@ const addUpdateUser = async (accounts: string[]) => {
                 const user: any = await User.findOne({account: accounts[i]});
                 console.log("user =", user)
 
-                if (user) await User.findOneAndUpdate({
-                    // _id,
-                    account: accounts[i],
-                    // ens,
-                    // avatar,
-                    trades_count: tradeCount,
-                    // duration,
-                    // favorite_asset,
-                    pnl: totalPnl,
-                    volume: totalVolume,
-                    pnlPercent: totalPnlPercent,
-                    // positions,
-                })
+                if (user) updateUser(user);
                 else if (typeof user === 'undefined' || user == null) {
 
                     try { 
