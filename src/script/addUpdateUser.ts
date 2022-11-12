@@ -6,26 +6,21 @@ import userRouter from '../controllers/userController';
 import positionRouter from '../controllers/positionController';
 import { Response } from "express";
 import server from '../../server'
+import { USDC_ADDRESS } from "@lyrafinance/lyra-js";
 
 const accountsArray: string[] = ['0x90C6577Fb57edF1921ae3F7F45dF7A31e46b9155', '0x23c5c19d2ad460b7cd1ea5d6a2274a3c53733238']
 const DB_URL = 'http://localhost:4000'
 
 const addUpdateUser = async (accounts: string[]) => {
-    
-    function updateUser(user) {
-        await User.findOneAndUpdate({
-        // _id,
-        account: accounts[i],
-        // ens,
-        // avatar,
-        trades_count: tradeCount,
-        // duration,
-        // favorite_asset,
-        pnl: totalPnl,
-        volume: totalVolume,
-        pnlPercent: totalPnlPercent,
-        // positions,
-    })}
+
+    let tradeCount: number = 0;
+    let totalPnl: number = 0;
+    let weightedPnlPercent: number = 0;
+    let totalVolume: number = 0;
+    let totalPnlPercent: number = 0;
+
+    async function updateUser (user_) {
+        await User.findOneAndUpdate(user_)}
 
     await server().then(async (mongoose) => {
         try {
@@ -34,13 +29,10 @@ const addUpdateUser = async (accounts: string[]) => {
 
                 // Add each new user
 
+                const user: any = await User.findOne({account: accounts[i]});
+                console.log("user =", user)
+
                 const userPositions = await getLyraPositions(accounts[i]);
-        
-                let tradeCount: number = 0,
-                totalPnl: number = 0,
-                    weightedPnlPercent: number = 0,
-                    totalVolume: number = 0,
-                    totalPnlPercent: number = 0;
 
                 userPositions.map((position: IPosition) => {
                     if(position) tradeCount = tradeCount + 1;
@@ -53,12 +45,29 @@ const addUpdateUser = async (accounts: string[]) => {
                                 (position.size * position.avgCostPerOption);
                     };
                 });
+
                 // console.log("current pnl =", currentPnl)
                 if(totalVolume > 0) totalPnlPercent = weightedPnlPercent / totalVolume
                 else totalPnlPercent = 0;
+
+
+                // USE AN OBJECT TO STORE THESE, NOT RANDOM NEW NAMES
+
+                // IF USER DOES NOT EXIST, WE CAN SET A DEFAULT USER using Object.assign(default, new)
+
+                // _id
+                // account
+                user.pnl = totalPnl;
+                // ens
+                // avatar
+                user.trades_count = tradeCount;
+                // duration
+                // favorite_asset
+                user.volume = totalVolume;
+                user.pnlPercent = totalPnlPercent;
+                // positions
+
         
-                const user: any = await User.findOne({account: accounts[i]});
-                console.log("user =", user)
 
                 if (user) updateUser(user);
                 else if (typeof user === 'undefined' || user == null) {
@@ -78,6 +87,8 @@ const addUpdateUser = async (accounts: string[]) => {
                         pnlPercent: totalPnlPercent,
                         // positions,
                     });
+
+
                     console.log('before save');
                     let saveUser = await newUser.save();
                     console.log(saveUser);
