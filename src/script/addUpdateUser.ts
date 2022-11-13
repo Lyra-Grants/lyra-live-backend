@@ -1,7 +1,7 @@
 import getLyraPositions from "../lyra/getLyraPositions/getLyraPositions";
 import { Position, IPosition } from '../models/position'
 import { addUser, User} from '../models/user'
-import { tUser } from '../types/user' 
+import { UserParams } from '../types/user' 
 import userRouter from '../controllers/userController';
 import positionRouter from '../controllers/positionController';
 import { Response } from "express";
@@ -19,8 +19,48 @@ const addUpdateUser = async (accounts: string[]) => {
     let totalVolume: number = 0;
     let totalPnlPercent: number = 0;
 
-    async function updateUser (user_) {
-        await User.findOneAndUpdate(user_)}
+    async function updateUser (_user: UserParams) {
+        await User.findOneAndUpdate(_user)
+    }
+
+    async function getUserPositions(_user: UserParams) {
+        const userPositions = await getLyraPositions(_user.account);
+
+        userPositions.map((position: IPosition) => {
+            if(position) _user.trades_count = _user.trades_count + 1;
+            if(position.realizedPnl) _user.pnl = _user.pnl + position.realizedPnl;
+
+            if(position.realizedPnlPercent && position.size && position.avgCostPerOption) {
+                _user.volume = _user.volume + position.size * position.avgCostPerOption;
+                if(position.size > 0 && position.avgCostPerOption > 0)
+                    weightedPnlPercent = weightedPnlPercent + position.realizedPnlPercent / 
+                        (position.size * position.avgCostPerOption);
+            };
+        });
+
+        // console.log("current pnl =", currentPnl)
+        if(_user.volume > 0) _user.pnlPercent = weightedPnlPercent / _user.volume
+        else _user.pnlPercent = 0;
+
+        // _id?
+        // account
+        // _user.pnl = totalPnl;
+        // ens?
+        // avatar?
+        // _user.trades_count = tradeCount;
+        // duration
+        // favorite_asset
+        // _user.volume = totalVolume;
+        // _user.pnlPercent = totalPnlPercent;
+        // positions
+
+        // IF USER DOES NOT EXIST, WE CAN SET A DEFAULT USER using Object.assign(default, new)
+
+
+
+        return _user;
+
+    }
 
     await server().then(async (mongoose) => {
         try {
@@ -29,48 +69,15 @@ const addUpdateUser = async (accounts: string[]) => {
 
                 // Add each new user
 
-                const user: any = await User.findOne({account: accounts[i]});
+                const user: UserParams | null = await User.findOne({account: accounts[i]});
                 console.log("user =", user)
 
-                const userPositions = await getLyraPositions(accounts[i]);
-
-                userPositions.map((position: IPosition) => {
-                    if(position) tradeCount = tradeCount + 1;
-                    if(position.realizedPnl) totalPnl = totalPnl + position.realizedPnl;
-
-                    if(position.realizedPnlPercent && position.size && position.avgCostPerOption) {
-                        totalVolume = totalVolume + position.size * position.avgCostPerOption;
-                        if(position.size > 0 && position.avgCostPerOption > 0)
-                            weightedPnlPercent = weightedPnlPercent + position.realizedPnlPercent / 
-                                (position.size * position.avgCostPerOption);
-                    };
-                });
-
-                // console.log("current pnl =", currentPnl)
-                if(totalVolume > 0) totalPnlPercent = weightedPnlPercent / totalVolume
-                else totalPnlPercent = 0;
-
-
-                // USE AN OBJECT TO STORE THESE, NOT RANDOM NEW NAMES
-
-                // IF USER DOES NOT EXIST, WE CAN SET A DEFAULT USER using Object.assign(default, new)
-
-                // _id
-                // account
-                user.pnl = totalPnl;
-                // ens
-                // avatar
-                user.trades_count = tradeCount;
-                // duration
-                // favorite_asset
-                user.volume = totalVolume;
-                user.pnlPercent = totalPnlPercent;
-                // positions
-
-        
+                if (user) getUserPositions(user);
 
                 if (user) updateUser(user);
-                else if (typeof user === 'undefined' || user == null) {
+                else if (user == null) {
+
+                    // IF USER DOES NOT EXIST, WE CAN SET A DEFAULT USER using Object.assign(default, new)
 
                     try { 
                         // User.init()
