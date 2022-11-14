@@ -11,5 +11,5 @@ export type UserParams = {
     pnl: number;
     volume: number;
     pnlPercent: number;
-    positions: Types.ObjectId[];
+    positions?: Types.ObjectId[];
 }

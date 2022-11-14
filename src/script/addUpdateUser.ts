@@ -77,29 +77,29 @@ const addUpdateUser = async (accounts: string[]) => {
                 if (user) updateUser(user);
                 else if (user == null) {
 
+                    const defaultUser = {
+                        account: accounts[i],
+                        ens: "",  // getENS(accounts[i]),
+                        avatar: "",  // getENSAvatar(accounts[i]),
+                        trades_count:  0,
+                        duration: "",
+                        favorite_asset: "",
+                        pnl: 0,
+                        volume: 0,
+                        pnlPercent: 0,
+                        // positions: 
+                    }
+
+                    const newUserWithPositions = getUserPositions(defaultUser)
+
                     // IF USER DOES NOT EXIST, WE CAN SET A DEFAULT USER using Object.assign(default, new)
 
                     try { 
                         // User.init()
-                        const newUser = new User({
-                        // _id,
-                        account: accounts[i],
-                        // ens,
-                        // avatar,
-                        trades_count: tradeCount,
-                        // duration,
-                        // favorite_asset,
-                        pnl: totalPnl,
-                        volume: totalVolume,
-                        pnlPercent: totalPnlPercent,
-                        // positions,
-                    });
+                        const newUser = new User(newUserWithPositions);
 
-
-                    console.log('before save');
                     let saveUser = await newUser.save();
-                    console.log(saveUser);
-                    console.log('after save');
+                    console.log('success', saveUser);
                     } catch (err) {
                         console.log('err' + err);
                         // res.status(500).send(err);
