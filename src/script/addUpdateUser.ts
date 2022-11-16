@@ -13,11 +13,7 @@ const DB_URL = 'http://localhost:4000'
 
 const addUpdateUser = async (accounts: string[]) => {
 
-    let tradeCount: number = 0;
-    let totalPnl: number = 0;
     let weightedPnlPercent: number = 0;
-    let totalVolume: number = 0;
-    let totalPnlPercent: number = 0;
 
     async function updateUser (_user: UserParams) {
         await User.findOneAndUpdate(_user)
@@ -36,6 +32,12 @@ const addUpdateUser = async (accounts: string[]) => {
                     weightedPnlPercent = weightedPnlPercent + position.realizedPnlPercent / 
                         (position.size * position.avgCostPerOption);
             };
+
+            // for duration, map keep track of the oldest position
+
+            // start a count for the position asset type
+            // increase the count for each next asset
+            // display the highest count as favorite_asset (trade #, not volume)
         });
 
         // console.log("current pnl =", currentPnl)
@@ -55,8 +57,6 @@ const addUpdateUser = async (accounts: string[]) => {
         // positions
 
         // IF USER DOES NOT EXIST, WE CAN SET A DEFAULT USER using Object.assign(default, new)
-
-
 
         return _user;
 
