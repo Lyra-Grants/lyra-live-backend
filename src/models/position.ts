@@ -69,7 +69,7 @@ export const addPosition = async(
 export interface IPosition {
     _id?: Types.ObjectId;
     dataSource?: string;
-    positionId: number;
+    positionId?: number;
     owner?: Types.ObjectId;
     size?: number;
     isOpen?: boolean;

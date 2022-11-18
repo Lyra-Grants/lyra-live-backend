@@ -7,11 +7,13 @@ import positionRouter from '../controllers/positionController';
 import { Response } from "express";
 import server from '../../server'
 import { USDC_ADDRESS } from "@lyrafinance/lyra-js";
+import Lyra from '@lyrafinance/lyra-js'
 
 const accountsArray: string[] = ['0x90C6577Fb57edF1921ae3F7F45dF7A31e46b9155', '0x23c5c19d2ad460b7cd1ea5d6a2274a3c53733238']
 const DB_URL = 'http://localhost:4000'
 
 const addUpdateUser = async (accounts: string[]) => {
+    const lyra = new Lyra;
 
     let weightedPnlPercent: number = 0;
 
@@ -20,7 +22,10 @@ const addUpdateUser = async (accounts: string[]) => {
     }
 
     async function getUserPositions(_user: UserParams) {
-        const userPositions = await getLyraPositions(_user.account);
+
+        const userPositions = await lyra.positions(_user.account)
+        // const userPositions = await getLyraPositions(_user.account);
+
 
         userPositions.map((position: IPosition) => {
             if(position) _user.trades_count = _user.trades_count + 1;
