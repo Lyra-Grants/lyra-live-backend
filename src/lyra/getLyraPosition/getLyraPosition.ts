@@ -23,6 +23,7 @@ const getLyraPosition = async (account: string) => {
         market: { type: 'string', alias: 'm', require: true },
         id: { type: 'string', alias: 'i', require: true },
     }).argv
+    
     const position = await lyra.position(args.market, parseInt(args.id))
     printObject('Position', {
         __source: position.__source,

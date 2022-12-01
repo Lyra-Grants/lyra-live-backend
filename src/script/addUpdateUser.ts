@@ -1,19 +1,29 @@
 import getLyraPositions from "../lyra/getLyraPositions/getLyraPositions";
-import { Position, IPosition } from '../models/position'
+// import { Position, IPosition, Position } from '../models/position'
 import { addUser, User} from '../models/user'
-import { UserParams } from '../types/user' 
+import { UserParams } from '../types' 
 import userRouter from '../controllers/userController';
 import positionRouter from '../controllers/positionController';
 import { Response } from "express";
 import server from '../../server'
-import { USDC_ADDRESS } from "@lyrafinance/lyra-js";
-import Lyra from '@lyrafinance/lyra-js'
+import getLyra from "../utils/getLyra";
+import Lyra from "@lyrafinance/lyra-js";
 
 const accountsArray: string[] = ['0x90C6577Fb57edF1921ae3F7F45dF7A31e46b9155', '0x23c5c19d2ad460b7cd1ea5d6a2274a3c53733238']
 const DB_URL = 'http://localhost:4000'
 
+import { 
+    PositionData,
+    Position,
+    PositionFilter, 
+    PositionLeaderboard, 
+    PositionLeaderboardFilter
+} from '@lyrafinance/lyra-js/src/position'
+
+import fetchPositionDataByOwner from "@lyrafinance/lyra-js/src/utils/fetchPositionDataByOwner";
+
 const addUpdateUser = async (accounts: string[]) => {
-    const lyra = new Lyra;
+    const lyra: Lyra = getLyra();
 
     let weightedPnlPercent: number = 0;
 
@@ -23,19 +33,19 @@ const addUpdateUser = async (accounts: string[]) => {
 
     async function getUserPositions(_user: UserParams) {
 
-        const userPositions = await lyra.positions(_user.account)
-        // const userPositions = await getLyraPositions(_user.account);
+        const userPositions = await fetchPositionDataByOwner(lyra, _user.account);
+        
+        userPositions.map((_position: PositionData) => {
 
 
-        userPositions.map((position: IPosition) => {
-            if(position) _user.trades_count = _user.trades_count + 1;
-            if(position.realizedPnl) _user.pnl = _user.pnl + position.realizedPnl;
+            // if(position) _user.trades_count = _user.trades_count + 1;
+            // if(position.realizedPnl) _user.pnl = _user.pnl + position.realizedPnl;
 
-            if(position.realizedPnlPercent && position.size && position.avgCostPerOption) {
-                _user.volume = _user.volume + position.size * position.avgCostPerOption;
-                if(position.size > 0 && position.avgCostPerOption > 0)
-                    weightedPnlPercent = weightedPnlPercent + position.realizedPnlPercent / 
-                        (position.size * position.avgCostPerOption);
+            // if(position.realizedPnlPercent && position.size && position.avgCostPerOption) {
+            //     _user.volume = _user.volume + position.size * position.avgCostPerOption;
+            //     if(position.size > 0 && position.avgCostPerOption > 0)
+            //         weightedPnlPercent = weightedPnlPercent + position.realizedPnlPercent / 
+            //             (position.size * position.avgCostPerOption);
             };
 
             // for duration, map keep track of the oldest position
@@ -49,19 +59,6 @@ const addUpdateUser = async (accounts: string[]) => {
         if(_user.volume > 0) _user.pnlPercent = weightedPnlPercent / _user.volume
         else _user.pnlPercent = 0;
 
-        // _id?
-        // account
-        // _user.pnl = totalPnl;
-        // ens?
-        // avatar?
-        // _user.trades_count = tradeCount;
-        // duration
-        // favorite_asset
-        // _user.volume = totalVolume;
-        // _user.pnlPercent = totalPnlPercent;
-        // positions
-
-        // IF USER DOES NOT EXIST, WE CAN SET A DEFAULT USER using Object.assign(default, new)
 
         return _user;
 
