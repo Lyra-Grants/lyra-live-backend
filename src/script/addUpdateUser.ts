@@ -17,13 +17,19 @@ import {
     Position,
     PositionFilter, 
     PositionLeaderboard, 
-    PositionLeaderboardFilter
-} from '@lyrafinance/lyra-js/src/position'
+    PositionLeaderboardFilter,
+    PositionLeaderboardSortBy
+} from '@lyrafinance/lyra-js'
 
 import fetchPositionDataByOwner from "@lyrafinance/lyra-js/src/utils/fetchPositionDataByOwner";
 
+export interface IPosition {
+
+}
+
 const addUpdateUser = async (accounts: string[]) => {
-    const lyra: Lyra = getLyra();
+    // const lyra: Lyra = getLyra();
+    const lyra = new Lyra();
 
     let weightedPnlPercent: number = 0;
 
@@ -34,8 +40,8 @@ const addUpdateUser = async (accounts: string[]) => {
     async function getUserPositions(_user: UserParams) {
 
         const userPositions = await fetchPositionDataByOwner(lyra, _user.account);
-        
-        userPositions.map((_position: PositionData) => {
+
+        userPositions.map((_position: Position) => {
 
 
             // if(position) _user.trades_count = _user.trades_count + 1;

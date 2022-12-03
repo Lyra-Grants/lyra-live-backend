@@ -1,5 +1,5 @@
 // position controller
-import { Position, addPosition } from '../models/position'
+import { Position, addPosition } from '../models/livePosition'
 import { Request, Response, NextFunction, Router } from 'express'
 import { apiErrorHandler } from '../handlers/errorHandler';
 

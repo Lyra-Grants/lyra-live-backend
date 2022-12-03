@@ -1,7 +1,15 @@
-import { Schema, model, Types } from 'mongoose';
+import { Schema, model, Types, Document, Model } from 'mongoose';
+import { 
+  PositionData,
+  Position,
+  PositionFilter, 
+  PositionLeaderboard, 
+  PositionLeaderboardFilter,
+  PositionLeaderboardSortBy
+} from '@lyrafinance/lyra-js'
 
-// position model
-const positionSchema = new Schema({
+// lyra-live position model
+const livePositionSchema = new Schema({
     _id: Types.ObjectId,
     dataSource: String,
     positionId: { type: Number, required: true, unique: true },
@@ -21,7 +29,7 @@ const positionSchema = new Schema({
     unrealizedPnlPercent: Number,
 })
 
-export const Position = model('Position', positionSchema)
+export const livePosition = model<IPositionModel>('livePosition', livePositionSchema)
 
 
 export const addPosition = async(
@@ -43,7 +51,7 @@ export const addPosition = async(
   unrealizedPnl: number,
   unrealizedPnlPercent: number,
   ) => {
-  const newPosition = new Position({
+  const newPosition = new livePosition({
     _id,
     dataSource,
     positionId,
@@ -67,7 +75,7 @@ export const addPosition = async(
 }
 
 export interface IPosition {
-    _id?: Types.ObjectId;
+    // _id?: Types.ObjectId;
     dataSource?: string;
     positionId?: number;
     owner?: Types.ObjectId;
@@ -85,3 +93,7 @@ export interface IPosition {
     unrealizedPnl?: number;
     unrealizedPnlPercent?: number;
   }
+
+export interface IPositionDocument extends IPosition, Document { }
+
+export interface IPositionModel extends Model<IPositionDocument> { }

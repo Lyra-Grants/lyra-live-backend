@@ -1,5 +1,5 @@
 import getLyra from '../utils/getLyra'
-import { IPosition } from '../../models/position'
+import { IPosition } from '../../models/livePosition'
 import { BigNumber } from '@ethersproject/bignumber'
 import { ethers } from 'ethers'
 
