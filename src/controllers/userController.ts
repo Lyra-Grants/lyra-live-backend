@@ -1,5 +1,6 @@
 // user controller
-import { User, addUser } from '../models/user'
+import { User } from '../models/user'
+import { addUser } from '../script/addUpdateUser'
 import { Request, Response, NextFunction, Router } from 'express'
 import { apiErrorHandler } from '../handlers/errorHandler';
 
@@ -7,17 +8,22 @@ const userRouter = Router()
 
 userRouter.route('/new').post(async (req: Request, res: Response, next: NextFunction) => {
     const {
-        // _id,
-        account,
-        ens,
-        avatar,
-        trades_count,
-        duration,
-        favorite_asset,
-        pnl,
-        volume,
-        pnlPercent,
-        positions,
+    account,
+    duration,
+    ensAvatar,
+    ensName,
+    favoriteMarket,
+    realizedPnl,
+    realizedLongPnl,
+    unrealizedPnl,
+    unrealizedLongPnl,
+    realizedLongPnlPercentage,
+    unrealizedLongPnlPercentage,
+    totalPremiums,
+    totalLongPremiums,
+    totalNotionalVolume,
+    tradesCount,
+    positions
     } = req.body
 
         // // First Validate The Request
@@ -42,19 +48,25 @@ userRouter.route('/new').post(async (req: Request, res: Response, next: NextFunc
         // }
 
     try {
-        const newUser = await addUser(  
-            // _id,
-            account,
-            ens,
-            avatar,
-            trades_count,
-            duration,
-            favorite_asset,
-            pnl,
-            volume,
-            pnlPercent,
-            positions,
-        )
+        const newUser = new User({  
+        // _id,
+        account,
+        duration,
+        ensAvatar,
+        ensName,
+        favoriteMarket,
+        realizedPnl,
+        realizedLongPnl,
+        unrealizedPnl,
+        unrealizedLongPnl,
+        realizedLongPnlPercentage,
+        unrealizedLongPnlPercentage,
+        totalPremiums,
+        totalLongPremiums,
+        totalNotionalVolume,
+        tradesCount,
+        positions,
+    }).save()
 
         res.json({"success": true, "message": null, "data": newUser});
     } catch (error) {

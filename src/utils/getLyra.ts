@@ -1,8 +1,8 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers'
 
-import { Deployment } from '@lyrafinance/lyra-js/src/constants/contracts'
+import { Deployment } from '../constants/contracts'
 import Lyra from '@lyrafinance/lyra-js'
-import getLyraDeploymentChainId from '@lyrafinance/lyra-js/src/utils/getLyraDeploymentChainId'
+import getLyraDeploymentChainId from './getLyraDeploymentChainId'
 
 export default function getLyra(): Lyra {
   const deploymentIndex = process.argv.findIndex(arg => arg === '-d' || arg === '--deployment')
