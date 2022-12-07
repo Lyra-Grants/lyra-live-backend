@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "prestart": "babel ./src --out-dir build",
-    "start": "node server.ts",
-    "seed": "node seed.ts",
+    "start": "ts-node-esm src/index.ts",
+    "seed": "ts-node-esm src/seed.ts",
     "startdev": "nodemon --exec babel-node ./src/bin/www",
     "lint": "eslint ./src",
     "pretty": "prettier --write '**/*.{js,json}' '!node_modules/**'",
@@ -35,6 +35,7 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
     "express": "^4.18.1",
+    "express-validator": "^6.14.2",
     "http-errors": "^2.0.0",
     "mocha": "^10.0.0",
     "mongoose": "^6.3.6",
