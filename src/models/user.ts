@@ -1,9 +1,9 @@
 import { Schema, model, Types } from 'mongoose';
 import { Position } from '@lyrafinance/lyra-js'
+import { IUser } from '../interfaces';
 
 // user model
 const userSchema = new Schema({
-    // _id: Types.ObjectId,
     account: { 
         type: String, 
         lowercase: true, 
@@ -30,3 +30,23 @@ const userSchema = new Schema({
 })
 
 export const User = model('User', userSchema)
+
+
+export const blankUser: IUser = {
+    account: "",
+    duration: null,
+    ensAvatar: null,
+    ensName: null,
+    favoriteMarket: null,
+    realizedPnl: 0,
+    realizedLongPnl: 0,
+    unrealizedPnl: 0,
+    unrealizedLongPnl: 0,
+    realizedLongPnlPercentage: 0,
+    unrealizedLongPnlPercentage: 0,
+    totalPremiums: 0,
+    totalLongPremiums: 0,
+    totalNotionalVolume: 0,
+    tradesCount: 0,
+    positions: [], 
+}

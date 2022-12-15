@@ -21,6 +21,7 @@ export const connectDB = async () => {
         Logging.error('Unable to connect.');
         Logging.error(error);
     });
+    return mongoose;
 }
 
 export const disconnectDB = async () => {

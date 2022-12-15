@@ -1,13 +1,15 @@
 import { IUser } from '../interfaces'
+import { blankUser } from '../models/user';
 import Lyra from "@lyrafinance/lyra-js";
 import fromBigNumber from "../utils/fromBigNumber";
 import { ZERO_BN, UNIT } from "../constants/bn";
 import { Position } from '@lyrafinance/lyra-js';
+import Logging from '../library/Logging';
 
 export default async function getUserData(lyra: Lyra, _user: IUser) {
 
     const positions: Position[] = await lyra.positions(_user.account);
-    console.log(">> User positions acquired")
+    Logging.info(`>> User positions acquired for ${_user.account}`);
 
     let favoriteMarket = ''
     const marketTradeCounts: {[market: string]: number} = {};
@@ -32,7 +34,6 @@ export default async function getUserData(lyra: Lyra, _user: IUser) {
         // Count trades by market type
         if(Object.keys(marketTradeCounts).includes(marketName)) {
           marketTradeCounts[`${marketName}`] += 1;
-          console.log("marketTradeCounts == ", marketTradeCounts);
         }
         else Object.assign(marketTradeCounts, {[`${marketName}`]: 1});
 
@@ -78,23 +79,26 @@ export default async function getUserData(lyra: Lyra, _user: IUser) {
     rankFavoriteMarket.sort(function(a, b) {
       return a[1] - b[1];
     })
-    
-    //   _user.duration = 
-    //   _user.ensAvatar = 
-    //   _user.ensName = 
-    _user.favoriteMarket = rankFavoriteMarket[0][0];
-    _user.realizedPnl = fromBigNumber(accountRealizedPnl);
-    _user.unrealizedPnl = fromBigNumber(accountUnrealizedPnl);
-    _user.realizedLongPnl = fromBigNumber(accountRealizedLongPnl);
-    _user.realizedLongPnlPercentage = fromBigNumber(realizedLongPnlPercentage);
-    _user.unrealizedLongPnl = fromBigNumber(accountUnrealizedLongPnl);
-    _user.unrealizedLongPnlPercentage = fromBigNumber(unrealizedLongPnlPercentage);
-    _user.totalPremiums = fromBigNumber(totalPremiums);
-    _user.totalLongPremiums = fromBigNumber(totalLongPremiums);
-    _user.totalNotionalVolume = fromBigNumber(totalNotionalVolume);
-    _user.tradesCount = positions.length;
-    _user.positions = positions;
 
-    console.log("userData =", _user)
-    return _user;
+    const userData: IUser = Object.assign(blankUser, {
+      account: _user.account,
+      // duration: , 
+      // ensAvatar: ,
+      // ensName: , 
+      favoriteMarket: rankFavoriteMarket[0][0],
+      realizedPnl: fromBigNumber(accountRealizedPnl),
+      unrealizedPnl: fromBigNumber(accountUnrealizedPnl),
+      realizedLongPnl: fromBigNumber(accountRealizedLongPnl),
+      realizedLongPnlPercentage: fromBigNumber(realizedLongPnlPercentage),
+      unrealizedLongPnl: fromBigNumber(accountUnrealizedLongPnl),
+      unrealizedLongPnlPercentage: fromBigNumber(unrealizedLongPnlPercentage),
+      totalPremiums: fromBigNumber(totalPremiums),
+      totalLongPremiums: fromBigNumber(totalLongPremiums),
+      totalNotionalVolume: fromBigNumber(totalNotionalVolume),
+      tradesCount: positions.length,
+      positions: positions,
+    })
+    Logging.info(`>> userData successfully processed for ${userData.account}`);
+    
+    return userData;
 }
