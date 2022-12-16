@@ -6,7 +6,6 @@ import { IUser } from '../interfaces';
 const userSchema = new Schema({
     account: { 
         type: String, 
-        lowercase: true, 
         required: true, 
         trim: true,
         unique: true

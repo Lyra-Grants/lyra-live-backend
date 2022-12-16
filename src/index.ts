@@ -24,15 +24,15 @@ export const connectDB = async () => {
     return mongoose;
 }
 
-export const disconnectDB = async () => {
-    try {
-        await mongoose.connection.close();
-        Logging.info('Disconnected from mongoDB.');
-    } catch(err) {
-        Logging.error('Unable to close connection.');
-        Logging.error(err);
-    }
-}
+// export const disconnectDB = async (db: typeof mongoose.connect) => {
+//     try {
+//         await db.close();
+//         Logging.info('Disconnected from mongoDB.');
+//     } catch(err) {
+//         Logging.error('Unable to close connection.');
+//         Logging.error(err);
+//     }
+// }
 
 //ONLY START THE SERVER IF MONGOOSE IS CONNECTS
 const StartServer = async () => {
