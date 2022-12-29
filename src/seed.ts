@@ -7,9 +7,9 @@ import server from "./server";
 const dataSetA = [
     "0x23c5c19d2ad460b7cd1ea5d6a2274a3c53733238",
     "0x9776a4a25e08230aa132865d5fce43bc48f0eb18",
-    "0x4ab3d7f4c46e511ca09eecdac483e43ed96bd7aa",
-    "0xee43ac49631b4488e7c2c3d7e354ca1e17512fa2",
-    "0x90C6577Fb57edF1921ae3F7F45dF7A31e46b9155",
+    // "0x4ab3d7f4c46e511ca09eecdac483e43ed96bd7aa",
+    // "0xee43ac49631b4488e7c2c3d7e354ca1e17512fa2",
+    // "0x90C6577Fb57edF1921ae3F7F45dF7A31e46b9155",
 ]
 
 const data = [
@@ -1172,23 +1172,25 @@ const data = [
     "0x6b707391c60d50e4e414a143446c0b8ef9a2d1c4"
 ]
 
-addUpdateUser(dataSetA);
+// addUpdateUser(dataSetA);
 
 import Logging from './library/Logging';
 import { Position } from '@lyrafinance/lyra-js';
 
-// const getUserDataTest = async() => {
-//     const lyra: Lyra = getLyra();
+// Check why mongoDB duplicate key error is showing
 
-//     const account: string = "0x90C6577Fb57edF1921ae3F7F45dF7A31e46b9155"
-//     try {
-//         console.log("fetching positions for account", account)
-//         const positions: Position[] = await lyra.positions(account);
-//         console.log("positions: ", positions)
-//         Logging.info(`>> User positions acquired for ${account}`);
-//     } catch(err) {
-//         console.log("ERROR: ", err)
-//     }
-// }
+const getUserDataTest = async() => {
+    const lyra: Lyra = getLyra();
 
-// getUserDataTest()
+    const account: string = "0x90C6577Fb57edF1921ae3F7F45dF7A31e46b9155"
+    try {
+        console.log("fetching positions for account", account)
+        const positions: Position[] = await lyra.positions(account);
+        console.log("positions: ", positions)
+        Logging.info(`>> User positions acquired for ${account}`);
+    } catch(err) {
+        console.log("ERROR: ", err)
+    }
+}
+
+getUserDataTest()
